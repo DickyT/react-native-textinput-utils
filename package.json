@@ -1,0 +1,26 @@
+{
+  "name": "react-native-keyboard-toolbar",
+  "version": "0.0.5",
+  "description": "A react native extendsion which allows you to add UIBarButtonItems to the keyboard of TextInput.",
+  "main": "index.ios.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DickyT/react-native-keyboard-toolbar.git"
+  },
+  "keywords": [
+    "react-native",
+    "react",
+    "ios",
+    "toolbar",
+    "textinput"
+  ],
+  "author": "DickyT",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DickyT/react-native-keyboard-toolbar/issues"
+  },
+  "homepage": "https://github.com/DickyT/react-native-keyboard-toolbar#readme"
+}
