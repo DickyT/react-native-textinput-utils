@@ -9,8 +9,8 @@ The original name is [react-native-keyboard-toolbar](http://github.com/DickyT/re
 ![react-native-textinput-utils](https://cloud.githubusercontent.com/assets/4535844/11055687/f2652524-874f-11e5-96f0-333c6bc4ba1c.gif)
 
 ## Timeline
-0.0.8 - Nov. 10 2015 - Added the support of `dismissKeyboard`, `moveCursorToLast` and `setSelection`
-0.0.7 - Nov. 9 2015 - Added the support of setting an `UIPickerView` as the `inputView`
+0.2 - Nov. 10 2015 - Added the support of `dismissKeyboard`, `moveCursorToLast` and `setSelection`
+0.1 - Nov. 9 2015 - Added the support of setting an `UIPickerView` as the `inputView`
 
 
 ## What can I do?
