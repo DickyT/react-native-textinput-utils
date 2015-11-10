@@ -8,7 +8,8 @@ const {
   DeviceEventEmitter,
   View,
   Text,
-  NativeModules: { KeyboardToolbar }
+  NativeModules: { KeyboardToolbar },
+  processColor
 } = React;
 
 class RCTKeyboardToolbarHelper {
@@ -115,7 +116,8 @@ class RCTKeyboardToolbarTextInput extends Component {
         barStyle: this.props.barStyle,
         leftButtonText: this.props.leftButtonText,
         rightButtonText: this.props.rightButtonText,
-        pickerViewData: pickerViewData
+        pickerViewData: pickerViewData,
+        tintColor: processColor(this.props.tintColor)
       }, callbacks);
     }
   }

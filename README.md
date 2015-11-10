@@ -9,6 +9,7 @@ The original name is [react-native-keyboard-toolbar](http://github.com/DickyT/re
 ![react-native-textinput-utils](https://cloud.githubusercontent.com/assets/4535844/11055687/f2652524-874f-11e5-96f0-333c6bc4ba1c.gif)
 
 ## Timeline
+0.2.1 - Nov. 11 2015 - Added the support of `tintColor`, which can set the cursor color
 0.2 - Nov. 10 2015 - Added the support of `dismissKeyboard`, `moveCursorToLast` and `setSelection`
 0.1 - Nov. 9 2015 - Added the support of setting an `UIPickerView` as the `inputView`
 
@@ -89,6 +90,14 @@ var pickerViewData = [
 />
 ```
 
+### If you want to set the cursor color
+```jsx
+<RCTKeyboardToolbarTextInput
+  tintColor='red'
+  ...
+/>
+```
+
 ### If you want to set the selection area
 ```jsx
 <RCTKeyboardToolbarTextInput
@@ -119,6 +128,7 @@ The **`<TabBarNavigator/>`** object can take the following props:
 - `rightButtonText`: The text in the *right-side* `UIToolBarItem`, if this value is empty, the UIToolBarItem on the *right* side will not be created
 - `onCancel`: The callback function of *left-side* `UIToolBarItem`
 - `onDone`: The callback function of *right-side* `UIToolBarItem`
+- `tintColor`: The cusor color
 
 And both `onCancel` and `onDone` will passing an function back, if you call that function, the keyboard will be dismissed.
 
