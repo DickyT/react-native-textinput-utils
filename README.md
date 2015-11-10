@@ -6,7 +6,7 @@ A react native extendsion which allows you to control TextInput better.
 
 The original name is [react-native-keyboard-toolbar](http://github.com/DickyT/react-native-keyboard-toolbar), because the latest add some features, I think the old name is not suitable for this package.
 
-![react-native-textinput-utils](https://cloud.githubusercontent.com/assets/4535844/11019638/ad4b0586-85d7-11e5-84ad-b187636d21da.gif)
+![react-native-textinput-utils](https://cloud.githubusercontent.com/assets/4535844/11055687/f2652524-874f-11e5-96f0-333c6bc4ba1c.gif)
 
 ## Timeline
 0.0.8 - Nov. 10 2015 - Added the support of `dismissKeyboard`, `moveCursorToLast` and `setSelection`
