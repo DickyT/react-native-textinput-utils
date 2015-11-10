@@ -15,6 +15,7 @@
 #import "RCTSparseArray.h"
 #import "RCTUIManager.h"
 #import "RCTEventDispatcher.h"
+#import "RCTKeyboardPicker.h"
 
 @implementation RCTKeyboardToolbar
 
@@ -39,6 +40,7 @@ RCT_EXPORT_METHOD(configure:(nonnull NSNumber *)reactNode
             return;
         }
         RCTTextField *textView = ((RCTTextField *)view);
+
         UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
         
         NSInteger toolbarStyle = [RCTConvert NSInteger:options[@"barStyle"]];
@@ -65,6 +67,16 @@ RCT_EXPORT_METHOD(configure:(nonnull NSNumber *)reactNode
         }
         numberToolbar.items = toolbarItems;
         
+        NSArray *pickerData = [RCTConvert NSArray:options[@"pickerViewData"]];
+        
+        if (pickerData.count > 0) {
+            RCTKeyboardPicker *pickerView = [[RCTKeyboardPicker alloc]init];
+            pickerView.tag = [currentUid intValue];
+            [pickerView setCallbackObject:self withSelector:@selector(valueSelected:)];
+            [pickerView setData:pickerData];
+            textView.inputView = pickerView;
+        }
+        
         [numberToolbar sizeToFit];
         textView.inputAccessoryView = numberToolbar;
         
@@ -86,6 +98,56 @@ RCT_EXPORT_METHOD(dismissKeyboard:(nonnull NSNumber *)reactNode) {
             [textView resignFirstResponder];
         });
     }];
+}
+
+RCT_EXPORT_METHOD(moveCursorToLast:(nonnull NSNumber *)reactNode) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, RCTSparseArray *viewRegistry) {
+        
+        UIView *view = viewRegistry[reactNode];
+        if (!view) {
+            RCTLogError(@"RCTKeyboardToolbar: TAG #%@ NOT FOUND", reactNode);
+            return;
+        }
+        RCTTextField *textView = ((RCTTextField *)view);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UITextPosition *position = [textView endOfDocument];
+            textView.selectedTextRange = [textView textRangeFromPosition:position toPosition:position];
+        });
+    }];
+}
+
+RCT_EXPORT_METHOD(setSelectedTextRange:(nonnull NSNumber *)reactNode
+                  options:(NSDictionary *)options) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, RCTSparseArray *viewRegistry) {
+        
+        UIView *view = viewRegistry[reactNode];
+        if (!view) {
+            RCTLogError(@"RCTKeyboardToolbar: TAG #%@ NOT FOUND", reactNode);
+            return;
+        }
+        RCTTextField *textView = ((RCTTextField *)view);
+        
+        NSNumber *startPosition = [RCTConvert NSNumber:options[@"start"]];
+        NSNumber *endPosition = [RCTConvert NSNumber:options[@"length"]];
+        
+        NSRange range  = NSMakeRange([startPosition integerValue], [endPosition integerValue]);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UITextPosition *from = [textView positionFromPosition:[textView beginningOfDocument] offset:range.location];
+            UITextPosition *to = [textView positionFromPosition:from offset:range.length];
+            [textView setSelectedTextRange:[textView textRangeFromPosition:from toPosition:to]];
+        });
+    }];
+}
+
+- (void)valueSelected:(RCTKeyboardPicker*)sender
+{
+    NSNumber *selectedIndex = [NSNumber numberWithLong:[sender selectedRowInComponent:0]];
+    NSLog(@"Selected %d", [selectedIndex intValue]);
+    NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
+    [self.bridge.eventDispatcher sendDeviceEventWithName:@"keyboardPickerViewDidSelected"
+                                                    body:@{@"currentUid" : [currentUid stringValue], @"selectedIndex": [selectedIndex stringValue]}];
 }
 
 - (void)keyboardCancel:(UIBarButtonItem*)sender

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		EA156A411BEF11850078CB1C /* RCTKeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = EA156A401BEF11850078CB1C /* RCTKeyboardToolbar.m */; settings = {ASSET_TAGS = (); }; };
+		EA4A61651BF18ED6008CE3AB /* RCTKeyboardPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4A61641BF18ED6008CE3AB /* RCTKeyboardPicker.m */; settings = {ASSET_TAGS = (); }; };
+		EA4A61691BF1A78E008CE3AB /* RCTTextFieldExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4A61681BF1A78E008CE3AB /* RCTTextFieldExtension.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,10 @@
 /* Begin PBXFileReference section */
 		EA156A3F1BEF11850078CB1C /* RCTKeyboardToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTKeyboardToolbar.h; sourceTree = "<group>"; };
 		EA156A401BEF11850078CB1C /* RCTKeyboardToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTKeyboardToolbar.m; sourceTree = "<group>"; };
+		EA4A61641BF18ED6008CE3AB /* RCTKeyboardPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTKeyboardPicker.m; sourceTree = "<group>"; };
+		EA4A61661BF18EE4008CE3AB /* RCTKeyboardPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTKeyboardPicker.h; sourceTree = "<group>"; };
+		EA4A61671BF1A78E008CE3AB /* RCTTextFieldExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTTextFieldExtension.h; sourceTree = "<group>"; };
+		EA4A61681BF1A78E008CE3AB /* RCTTextFieldExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTTextFieldExtension.m; sourceTree = "<group>"; };
 		EADF3C831BEE147600DCD186 /* libRCTKeyboardToolbar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTKeyboardToolbar.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -44,6 +50,10 @@
 			children = (
 				EA156A3F1BEF11850078CB1C /* RCTKeyboardToolbar.h */,
 				EA156A401BEF11850078CB1C /* RCTKeyboardToolbar.m */,
+				EA4A61661BF18EE4008CE3AB /* RCTKeyboardPicker.h */,
+				EA4A61641BF18ED6008CE3AB /* RCTKeyboardPicker.m */,
+				EA4A61671BF1A78E008CE3AB /* RCTTextFieldExtension.h */,
+				EA4A61681BF1A78E008CE3AB /* RCTTextFieldExtension.m */,
 			);
 			name = RCTKeyboardToolbar;
 			sourceTree = "<group>";
@@ -121,6 +131,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA4A61691BF1A78E008CE3AB /* RCTTextFieldExtension.m in Sources */,
+				EA4A61651BF18ED6008CE3AB /* RCTKeyboardPicker.m in Sources */,
 				EA156A411BEF11850078CB1C /* RCTKeyboardToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
