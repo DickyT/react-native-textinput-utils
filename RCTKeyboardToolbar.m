@@ -16,6 +16,7 @@
 #import "RCTUIManager.h"
 #import "RCTEventDispatcher.h"
 #import "RCTKeyboardPicker.h"
+#import "RCTTextViewExtension.h"
 
 @implementation RCTKeyboardToolbar
 
@@ -39,7 +40,23 @@ RCT_EXPORT_METHOD(configure:(nonnull NSNumber *)reactNode
             RCTLogError(@"RCTKeyboardToolbar: TAG #%@ NOT FOUND", reactNode);
             return;
         }
-        RCTTextField *textView = ((RCTTextField *)view);
+        
+        // The convert is little bit dangerous, change it if you are going to fock the project
+        // Or do not assign any non-common property between UITextView and UITextView
+        UITextField *textView;
+        if ([view class] == [RCTTextView class]) {
+            RCTTextView *reactNativeTextView = ((RCTTextView *)view);
+            textView = [reactNativeTextView getTextView];
+        }
+        else {
+            RCTTextField *reactNativeTextView = ((RCTTextField *)view);
+            textView = reactNativeTextView;
+        }
+        
+        if (![options[@"tintColor"]  isEqual: @""]) {
+            NSLog(@"tintColor is %@", options[@"tintColor"]);
+            textView.tintColor = [RCTConvert UIColor:options[@"tintColor"]];
+        }
 
         UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
         

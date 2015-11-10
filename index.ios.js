@@ -92,34 +92,32 @@ class RCTKeyboardToolbarManager {
 
 class RCTKeyboardToolbarTextInput extends Component {
   componentDidMount() {
-    if (!this.props.multiline) {
-      var pickerViewData = [];
-      if (this.props.pickerViewData) {
-        this.props.pickerViewData.map((eachData) => {
-          pickerViewData.push(eachData.label);
-        });
-      }
-
-      var callbacks = {
-        onCancel: () => {
-          // onCancel
-          if (this.props.onCancel) this.props.onCancel(RCTKeyboardToolbarManager.dismissKeyboard.bind(this, this.refs['MygKD']));
-        },
-        onDone: () => {
-          // onDone
-          if (this.props.onDone) this.props.onDone(RCTKeyboardToolbarManager.dismissKeyboard.bind(this, this.refs['MygKD']));
-        },
-        onPickerSelect: this.props.onPickerSelect
-      };
-
-      RCTKeyboardToolbarManager.configure(this.refs['MygKD'], {
-        barStyle: this.props.barStyle,
-        leftButtonText: this.props.leftButtonText,
-        rightButtonText: this.props.rightButtonText,
-        pickerViewData: pickerViewData,
-        tintColor: processColor(this.props.tintColor)
-      }, callbacks);
+    var pickerViewData = [];
+    if (this.props.pickerViewData) {
+      this.props.pickerViewData.map((eachData) => {
+        pickerViewData.push(eachData.label);
+      });
     }
+
+    var callbacks = {
+      onCancel: () => {
+        // onCancel
+        if (this.props.onCancel) this.props.onCancel(RCTKeyboardToolbarManager.dismissKeyboard.bind(this, this.refs['MygKD']));
+      },
+      onDone: () => {
+        // onDone
+        if (this.props.onDone) this.props.onDone(RCTKeyboardToolbarManager.dismissKeyboard.bind(this, this.refs['MygKD']));
+      },
+      onPickerSelect: this.props.onPickerSelect
+    };
+
+    RCTKeyboardToolbarManager.configure(this.refs['MygKD'], {
+      barStyle: this.props.barStyle,
+      leftButtonText: this.props.leftButtonText,
+      rightButtonText: this.props.rightButtonText,
+      pickerViewData: pickerViewData,
+      tintColor: processColor(this.props.tintColor)
+    }, callbacks);
   }
   dismissKeyboard() {
     RCTKeyboardToolbarManager.dismissKeyboard(this.refs['MygKD']);
