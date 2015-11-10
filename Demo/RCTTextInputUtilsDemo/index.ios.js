@@ -11,7 +11,8 @@ var {
   Text,
   View,
   Component,
-  TouchableOpacity
+  TouchableOpacity,
+  AlertIOS
 } = React;
 
 var RCTKeyboardToolbarTextInput = require('react-native-textinput-utils');
