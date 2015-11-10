@@ -1,6 +1,6 @@
 {
   "name": "react-native-textinput-utils",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A react native extension which allows you to control TextInput better.",
   "main": "index.ios.js",
   "repository": {
