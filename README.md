@@ -33,6 +33,14 @@ __I am still very simple to use__
 
 ```npm install react-native-textinput-utils --save```
 
+## How to run
+
+### Runing the demo
+Download and open the `RCTTextInputUtilsDemo.xcodeproj` file, and runs.
+
+### Using this package in other project
+You might need to add the `es7.classProperties` into your `PROJECT_ROOT/npm_modules/react-native/packager/transformer.js` and `PROJECT_ROOT/npm_modules/react-native/packager/react-packager/.babelrc`
+
 ## iOS configuration
 
 1. In XCode, in the project navigator right click `Libraries` ➜ `Add Files to [your project's name]`
