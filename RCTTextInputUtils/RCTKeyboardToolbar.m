@@ -53,7 +53,7 @@ RCT_EXPORT_METHOD(configure:(nonnull NSNumber *)reactNode
             textView = reactNativeTextView;
         }
         
-        if (![options[@"tintColor"]  isEqual: @""]) {
+        if (options[@"tintColor"]) {
             NSLog(@"tintColor is %@", options[@"tintColor"]);
             textView.tintColor = [RCTConvert UIColor:options[@"tintColor"]];
         }

@@ -16,20 +16,6 @@
     self.dataSource = self;
 
     self.viewData = [[NSMutableArray alloc]init];
-    [self.viewData addObject:@{
-                               @"price" : [NSNumber numberWithInt:50],
-                               @"credit" : [NSNumber numberWithInt:500]
-                               }];
-    
-    [self.viewData addObject:@{
-                               @"price" : [NSNumber numberWithInt:100],
-                               @"credit" : [NSNumber numberWithInt:1000]
-                               }];
-    
-    [self.viewData addObject:@{
-                               @"price" : [NSNumber numberWithInt:200],
-                               @"credit" : [NSNumber numberWithInt:2000]
-                               }];
     return self;
 }
 
