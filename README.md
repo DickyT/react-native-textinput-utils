@@ -9,7 +9,7 @@ The original name is [react-native-keyboard-toolbar](http://github.com/DickyT/re
 ![react-native-textinput-utils](https://cloud.githubusercontent.com/assets/4535844/11055687/f2652524-874f-11e5-96f0-333c6bc4ba1c.gif)
 
 ## Timeline
-0.2.5 - Nov. 12 2015 - Added the fully support of `multiline` `<TextInput/>
+0.2.5 - Nov. 12 2015 - Added the fully support of `multiline` `<TextInput/>`
 
 0.2.1 - Nov. 11 2015 - Added the support of `tintColor`, which can set the cursor color
 
