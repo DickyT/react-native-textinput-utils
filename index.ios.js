@@ -75,19 +75,34 @@ class RCTKeyboardToolbarManager {
                 });
             }
         });
-    }
-    static dismissKeyboard(node) {
-        var nodeHandle = findNodeHandle(node);
-        KeyboardToolbar.dismissKeyboard(nodeHandle);
-    }
-    static moveCursorToLast(node) {
-        var nodeHandle = findNodeHandle(node);
-        KeyboardToolbar.moveCursorToLast(nodeHandle);
-    }
-    static setSelectedTextRange(node, NSRange) {
-        var nodeHandle = findNodeHandle(node);
-        KeyboardToolbar.setSelectedTextRange(nodeHandle, NSRange);
-    }
+      }
+    });
+  }
+  static dismissKeyboard(node) {
+    var nodeHandle = findNodeHandle(node);
+    KeyboardToolbar.dismissKeyboard(nodeHandle);
+  }
+  static moveCursorToLast(node) {
+    var nodeHandle = findNodeHandle(node);
+    KeyboardToolbar.moveCursorToLast(nodeHandle);
+  }
+  static setSelectedTextRange(node, NSRange) {
+    var nodeHandle = findNodeHandle(node);
+    KeyboardToolbar.setSelectedTextRange(nodeHandle, NSRange);
+  }
+   static setDate(node, NSDate) {
+    var nodeHandle = findNodeHandle(node);
+    KeyboardToolbar.setDate(nodeHandle, NSDate);
+  }
+  static setPickerRowByIndex(node, NSInteger) {
+    var nodeHandle = findNodeHandle(node);
+    KeyboardToolbar.setPickerRowByIndex(nodeHandle, NSInteger);
+  }
+    static reloadPickerData(node, NSArray) {
+    var nodeHandle = findNodeHandle(node);
+    KeyboardToolbar.reloadPickerData(nodeHandle, NSArray);
+  }
+
 }
 
 class RCTKeyboardToolbarTextInput extends React.Component {
@@ -140,6 +155,24 @@ class RCTKeyboardToolbarTextInput extends React.Component {
             length: length
         });
     }
+    setDate(date) {
+      RCTKeyboardToolbarManager.setDate(this.refs.input, {
+        date: date
+      });
+    }
+    setPickerRowByIndex(index) {
+      RCTKeyboardToolbarManager.setPickerRowByIndex(this.refs.input, {
+        index: index
+      });
+    } 
+    reloadPickerData(data) {
+      data = data.map((eachData) => {
+        return eachData.label;
+      });
+      RCTKeyboardToolbarManager.reloadPickerData(this.refs.input, {
+        data
+      });
+    } 
     focus() {
         this.refs.MygKD.focus();
     }
