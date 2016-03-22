@@ -12,7 +12,6 @@
 #import "RCTConvert.h"
 #import "RCTTextField.h"
 #import "RCTTextView.h"
-#import "RCTSparseArray.h"
 #import "RCTUIManager.h"
 #import "RCTEventDispatcher.h"
 #import "RCTKeyboardPicker.h"
@@ -33,7 +32,7 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_METHOD(configure:(nonnull NSNumber *)reactNode
                   options:(NSDictionary *)options
                   callback:(RCTResponseSenderBlock)callback) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, RCTSparseArray *viewRegistry) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry ) {
         
         UIView *view = viewRegistry[reactNode];
         if (!view) {
@@ -102,7 +101,7 @@ RCT_EXPORT_METHOD(configure:(nonnull NSNumber *)reactNode
 }
 
 RCT_EXPORT_METHOD(dismissKeyboard:(nonnull NSNumber *)reactNode) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, RCTSparseArray *viewRegistry) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry ) {
         
         UIView *view = viewRegistry[reactNode];
         if (!view) {
@@ -118,7 +117,7 @@ RCT_EXPORT_METHOD(dismissKeyboard:(nonnull NSNumber *)reactNode) {
 }
 
 RCT_EXPORT_METHOD(moveCursorToLast:(nonnull NSNumber *)reactNode) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, RCTSparseArray *viewRegistry) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry ) {
         
         UIView *view = viewRegistry[reactNode];
         if (!view) {
@@ -136,7 +135,7 @@ RCT_EXPORT_METHOD(moveCursorToLast:(nonnull NSNumber *)reactNode) {
 
 RCT_EXPORT_METHOD(setSelectedTextRange:(nonnull NSNumber *)reactNode
                   options:(NSDictionary *)options) {
-    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, RCTSparseArray *viewRegistry) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry ) {
         
         UIView *view = viewRegistry[reactNode];
         if (!view) {
