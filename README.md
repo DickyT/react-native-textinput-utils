@@ -57,7 +57,7 @@ You might need to add the `es7.classProperties` into your `PROJECT_ROOT/npm_modu
 
 ## Basic Usage
 ```jsx
-import ToolbarInput from 'react-native-keyboard-toolbar';
+var RCTKeyboardToolbarTextInput = require('react-native-textinput-utils');
 ```
 
 ```jsx
