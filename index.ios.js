@@ -27,6 +27,9 @@ class RCTKeyboardToolbarHelper {
   static getCallback(key) {
     return RCTKeyboardToolbarHelper.sharedInstance.callbackList[key];
   }
+  static clearCallback(key){
+    delete RCTKeyboardToolbarHelper.sharedInstance.callbackList[key]
+  }
 }
 
 DeviceEventEmitter.addListener(
@@ -53,25 +56,28 @@ DeviceEventEmitter.addListener(
   }
 );
 
-class MyPicker extends Component {
-  render() {
-    return (
-      <Text>11212</Text>
-    );
+DeviceEventEmitter.addListener(
+  'keyboardDatePickerViewDidSelected', (data) => {
+    console.log(`keyboardDatePickerViewDidSelected => data => ${data['selectedDate']}`);
+    var currentUid = data['currentUid'];
+    var selectedDate = data['selectedDate'];
+    let eventHandler = RCTKeyboardToolbarHelper.getCallback(currentUid).onDateSelect;
+    if (eventHandler) eventHandler(selectedDate);
   }
-}
+);
 
 class RCTKeyboardToolbarManager {
   static configure(node, options, callbacks) {
     var reactNode = React.findNodeHandle(node);
     options.uid = RCTKeyboardToolbarHelper.getUid();
-    let test = new MyPicker;
     KeyboardToolbar.configure(reactNode, options, (error, currentUid) => {
+      node.uid = currentUid;
       if (!error) {
         RCTKeyboardToolbarHelper.setCallback(currentUid, {
           onCancel: callbacks.onCancel,
           onDone: callbacks.onDone,
-          onPickerSelect: callbacks.onPickerSelect
+          onPickerSelect: callbacks.onPickerSelect,
+          onDateSelect: callbacks.onDateSelect
         });
       }
     });
@@ -108,7 +114,8 @@ class RCTKeyboardToolbarTextInput extends Component {
         // onDone
         if (this.props.onDone) this.props.onDone(RCTKeyboardToolbarManager.dismissKeyboard.bind(this, this.refs['MygKD']));
       },
-      onPickerSelect: this.props.onPickerSelect
+      onPickerSelect: this.props.onPickerSelect,
+      onDateSelect: this.props.onDateSelect,
     };
 
     RCTKeyboardToolbarManager.configure(this.refs['MygKD'], {
@@ -116,8 +123,12 @@ class RCTKeyboardToolbarTextInput extends Component {
       leftButtonText: this.props.leftButtonText,
       rightButtonText: this.props.rightButtonText,
       pickerViewData: pickerViewData,
+      datePickerOptions: this.props.datePickerOptions,
       tintColor: processColor(this.props.tintColor)
     }, callbacks);
+  }
+  componentWillUnmount(){
+    RCTKeyboardToolbarHelper.clearCallback(this.refs['MygKD'].uid);
   }
   dismissKeyboard() {
     RCTKeyboardToolbarManager.dismissKeyboard(this.refs['MygKD']);
@@ -130,6 +141,9 @@ class RCTKeyboardToolbarTextInput extends Component {
       start: start,
       length: length
     });
+  }
+  focus(){
+    this.refs.MygKD.focus();
   }
   render() {
     return (
