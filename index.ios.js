@@ -1,16 +1,15 @@
 'use strict';
 
-const React = require('react-native');
+const {Component} = require('react');
 
 const {
-  Component,
   TextInput,
   DeviceEventEmitter,
   View,
   Text,
   NativeModules: { KeyboardToolbar },
   processColor
-} = React;
+} = require('react-native');
 
 class RCTKeyboardToolbarHelper {
   static sharedInstance = new RCTKeyboardToolbarHelper();
