@@ -1,143 +1,151 @@
 'use strict';
 
-const React = require('react-native');
+const React = require('react');
 
-const {
-  Component,
-  TextInput,
-  DeviceEventEmitter,
-  View,
-  Text,
-  NativeModules: { KeyboardToolbar },
-  processColor
-} = React;
+const {findNodeHandle, TextInput, DeviceEventEmitter, NativeModules: {
+        KeyboardToolbar
+    }, processColor} = require('react-native');
 
 class RCTKeyboardToolbarHelper {
-  static sharedInstance = new RCTKeyboardToolbarHelper();
-  constructor() {
-    this.counter = 0;
-    this.callbackList = {};
-  }
-  static getUid() {
-    return RCTKeyboardToolbarHelper.sharedInstance.counter++;
-  }
-  static setCallback(key, value) {
-    RCTKeyboardToolbarHelper.sharedInstance.callbackList[key] = value;
-  }
-  static getCallback(key) {
-    return RCTKeyboardToolbarHelper.sharedInstance.callbackList[key];
-  }
+    static sharedInstance = new RCTKeyboardToolbarHelper();
+    constructor() {
+        this.counter = 0;
+        this.callbackList = {};
+    }
+    static getUid() {
+        return RCTKeyboardToolbarHelper.sharedInstance.counter++;
+    }
+    static setCallback(key, value) {
+        RCTKeyboardToolbarHelper.sharedInstance.callbackList[key] = value;
+    }
+    static getCallback(key) {
+        return RCTKeyboardToolbarHelper.sharedInstance.callbackList[key];
+    }
+    static clearCallback(key) {
+        delete RCTKeyboardToolbarHelper.sharedInstance.callbackList[key];
+    }
 }
 
-DeviceEventEmitter.addListener(
-  'keyboardToolbarDidTouchOnCancel', (currentUid) => {
+DeviceEventEmitter.addListener('keyboardToolbarDidTouchOnCancel', (currentUid) => {
     let eventHandler = RCTKeyboardToolbarHelper.getCallback(currentUid).onCancel;
-    if (eventHandler) eventHandler();
-  }
-);
+    if (eventHandler) {
+        eventHandler();
+    }
+});
 
-DeviceEventEmitter.addListener(
-  'keyboardToolbarDidTouchOnDone', (currentUid) => {
+DeviceEventEmitter.addListener('keyboardToolbarDidTouchOnDone', (currentUid) => {
     let eventHandler = RCTKeyboardToolbarHelper.getCallback(currentUid).onDone;
-    if (eventHandler) eventHandler();
-  }
-);
+    if (eventHandler) {
+        eventHandler();
+    }
+});
 
-DeviceEventEmitter.addListener(
-  'keyboardPickerViewDidSelected', (data) => {
+DeviceEventEmitter.addListener('keyboardPickerViewDidSelected', (data) => {
     console.log(`keyboardPickerViewDidSelected => data => ${data['selectedIndex']}`);
     var currentUid = data['currentUid'];
     var selectedIndex = data['selectedIndex'];
     let eventHandler = RCTKeyboardToolbarHelper.getCallback(currentUid).onPickerSelect;
-    if (eventHandler) eventHandler(selectedIndex);
-  }
-);
+    if (eventHandler) {
+        eventHandler(selectedIndex);
+    }
+});
 
-class MyPicker extends Component {
-  render() {
-    return (
-      <Text>11212</Text>
-    );
-  }
-}
+DeviceEventEmitter.addListener('keyboardDatePickerViewDidSelected', (data) => {
+    console.log(`keyboardDatePickerViewDidSelected => data => ${data['selectedDate']}`);
+    var currentUid = data['currentUid'];
+    var selectedDate = data['selectedDate'];
+    let eventHandler = RCTKeyboardToolbarHelper.getCallback(currentUid).onDateSelect;
+    if (eventHandler) {
+        eventHandler(selectedDate);
+    }
+});
 
 class RCTKeyboardToolbarManager {
-  static configure(node, options, callbacks) {
-    var reactNode = React.findNodeHandle(node);
-    options.uid = RCTKeyboardToolbarHelper.getUid();
-    let test = new MyPicker;
-    KeyboardToolbar.configure(reactNode, options, (error, currentUid) => {
-      if (!error) {
-        RCTKeyboardToolbarHelper.setCallback(currentUid, {
-          onCancel: callbacks.onCancel,
-          onDone: callbacks.onDone,
-          onPickerSelect: callbacks.onPickerSelect
+    static configure(node, options, callbacks) {
+        var reactNode = findNodeHandle(node);
+        options.uid = RCTKeyboardToolbarHelper.getUid();
+        KeyboardToolbar.configure(reactNode, options, (error, currentUid) => {
+            node.uid = currentUid;
+            if (!error) {
+                RCTKeyboardToolbarHelper.setCallback(currentUid, {
+                    onCancel: callbacks.onCancel,
+                    onDone: callbacks.onDone,
+                    onPickerSelect: callbacks.onPickerSelect,
+                    onDateSelect: callbacks.onDateSelect
+                });
+            }
         });
-      }
-    });
-  }
-  static dismissKeyboard(node) {
-    var nodeHandle = React.findNodeHandle(node);
-    KeyboardToolbar.dismissKeyboard(nodeHandle);
-  }
-  static moveCursorToLast(node) {
-    var nodeHandle = React.findNodeHandle(node);
-    KeyboardToolbar.moveCursorToLast(nodeHandle);
-  }
-  static setSelectedTextRange(node, NSRange) {
-    var nodeHandle = React.findNodeHandle(node);
-    KeyboardToolbar.setSelectedTextRange(nodeHandle, NSRange);
-  }
+    }
+    static dismissKeyboard(node) {
+        var nodeHandle = findNodeHandle(node);
+        KeyboardToolbar.dismissKeyboard(nodeHandle);
+    }
+    static moveCursorToLast(node) {
+        var nodeHandle = findNodeHandle(node);
+        KeyboardToolbar.moveCursorToLast(nodeHandle);
+    }
+    static setSelectedTextRange(node, NSRange) {
+        var nodeHandle = findNodeHandle(node);
+        KeyboardToolbar.setSelectedTextRange(nodeHandle, NSRange);
+    }
 }
 
-class RCTKeyboardToolbarTextInput extends Component {
-  componentDidMount() {
-    var pickerViewData = [];
-    if (this.props.pickerViewData) {
-      this.props.pickerViewData.map((eachData) => {
-        pickerViewData.push(eachData.label);
-      });
+class RCTKeyboardToolbarTextInput extends React.Component {
+    componentDidMount() {
+        var pickerViewData = [];
+        if (this.props.pickerViewData) {
+            this.props.pickerViewData.map((eachData) => {
+                pickerViewData.push(eachData.label);
+            });
+        }
+
+        var callbacks = {
+            onCancel: () => {
+                // onCancel
+                if (this.props.onCancel) {
+                    this.props.onCancel(RCTKeyboardToolbarManager.dismissKeyboard.bind(this, this.refs.input));
+                }
+            },
+            onDone: () => {
+                // onDone
+                if (this.props.onDone) {
+                    this.props.onDone(RCTKeyboardToolbarManager.dismissKeyboard.bind(this, this.refs.input));
+                }
+            },
+            onPickerSelect: this.props.onPickerSelect,
+            onDateSelect: this.props.onDateSelect
+        };
+
+        RCTKeyboardToolbarManager.configure(this.refs.input, {
+            barStyle: this.props.barStyle,
+            leftButtonText: this.props.leftButtonText,
+            rightButtonText: this.props.rightButtonText,
+            pickerViewData: pickerViewData,
+            datePickerOptions: this.props.datePickerOptions,
+            tintColor: processColor(this.props.tintColor)
+        }, callbacks);
     }
-
-    var callbacks = {
-      onCancel: () => {
-        // onCancel
-        if (this.props.onCancel) this.props.onCancel(RCTKeyboardToolbarManager.dismissKeyboard.bind(this, this.refs['MygKD']));
-      },
-      onDone: () => {
-        // onDone
-        if (this.props.onDone) this.props.onDone(RCTKeyboardToolbarManager.dismissKeyboard.bind(this, this.refs['MygKD']));
-      },
-      onPickerSelect: this.props.onPickerSelect
-    };
-
-    RCTKeyboardToolbarManager.configure(this.refs['MygKD'], {
-      barStyle: this.props.barStyle,
-      leftButtonText: this.props.leftButtonText,
-      rightButtonText: this.props.rightButtonText,
-      pickerViewData: pickerViewData,
-      tintColor: processColor(this.props.tintColor)
-    }, callbacks);
-  }
-  dismissKeyboard() {
-    RCTKeyboardToolbarManager.dismissKeyboard(this.refs['MygKD']);
-  }
-  moveCursorToLast() {
-    RCTKeyboardToolbarManager.moveCursorToLast(this.refs['MygKD']);
-  }
-  setSelection(start, length) {
-    RCTKeyboardToolbarManager.setSelectedTextRange(this.refs['MygKD'], {
-      start: start,
-      length: length
-    });
-  }
-  render() {
-    return (
-      <TextInput
-        {...this.props}
-        ref='MygKD'/>
-    );
-  }
+    componentWillUnmount() {
+        RCTKeyboardToolbarHelper.clearCallback(this.refs.input.uid);
+    }
+    dismissKeyboard() {
+        RCTKeyboardToolbarManager.dismissKeyboard(this.refs.input);
+    }
+    moveCursorToLast() {
+        RCTKeyboardToolbarManager.moveCursorToLast(this.refs.input);
+    }
+    setSelection(start, length) {
+        RCTKeyboardToolbarManager.setSelectedTextRange(this.refs.input, {
+            start: start,
+            length: length
+        });
+    }
+    focus() {
+        this.refs.MygKD.focus();
+    }
+    render() {
+        return (<TextInput {...this.props} ref="input"/>);
+    }
 }
 
 module.exports = RCTKeyboardToolbarTextInput;

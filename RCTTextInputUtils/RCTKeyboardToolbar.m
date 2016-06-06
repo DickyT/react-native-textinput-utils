@@ -16,6 +16,9 @@
 #import "RCTEventDispatcher.h"
 #import "RCTKeyboardPicker.h"
 #import "RCTTextViewExtension.h"
+#import "RCTDatePicker.h"
+#import "RCTDatePickerManager.h"
+#import "RCTKeyboardDatePicker.h"
 
 @implementation RCTKeyboardToolbar
 
@@ -93,6 +96,15 @@ RCT_EXPORT_METHOD(configure:(nonnull NSNumber *)reactNode
             textView.inputView = pickerView;
         }
         
+        NSDictionary *datePicerkViewData = [RCTConvert NSDictionary:options[@"datePickerOptions"]];
+        if(datePicerkViewData != nil){
+            RCTKeyboardDatePicker *datePickerView = [[RCTKeyboardDatePicker alloc] init];
+            datePickerView.tag = [currentUid intValue];
+            [datePickerView setCallbackObject:self withSelector:@selector(dateSelected:)];
+            [datePickerView setOptions:datePicerkViewData];
+            textView.inputView = datePickerView;
+        }
+        
         [numberToolbar sizeToFit];
         textView.inputAccessoryView = numberToolbar;
         
@@ -155,6 +167,13 @@ RCT_EXPORT_METHOD(setSelectedTextRange:(nonnull NSNumber *)reactNode
             [textView setSelectedTextRange:[textView textRangeFromPosition:from toPosition:to]];
         });
     }];
+}
+
+-(void)dateSelected:(RCTKeyboardDatePicker*)sender
+{
+    NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
+    [self.bridge.eventDispatcher sendDeviceEventWithName:@"keyboardDatePickerViewDidSelected"
+                                                    body:@{@"currentUid" : [currentUid stringValue], @"selectedDate": @(sender.date.timeIntervalSince1970 * 1000.0)}];
 }
 
 - (void)valueSelected:(RCTKeyboardPicker*)sender
