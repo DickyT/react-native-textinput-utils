@@ -76,8 +76,7 @@ class RCTKeyboardToolbarManager {
             }
         });
       }
-    });
-  }
+      
   static dismissKeyboard(node) {
     var nodeHandle = findNodeHandle(node);
     KeyboardToolbar.dismissKeyboard(nodeHandle);

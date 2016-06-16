@@ -232,6 +232,8 @@ RCT_EXPORT_METHOD(setDate:(nonnull NSNumber *)reactNode
         //        dispatch_async(dispatch_get_main_queue(), ^{
         //        });
     }];
+}
+
 -(void)dateSelected:(RCTKeyboardDatePicker*)sender
 {
     NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
