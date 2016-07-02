@@ -172,7 +172,7 @@ RCT_EXPORT_METHOD(setSelectedTextRange:(nonnull NSNumber *)reactNode
 -(void)dateSelected:(RCTKeyboardDatePicker*)sender
 {
     NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"keyboardDatePickerViewDidSelected"
+    [self.bridge.eventDispatcher sendAppEventWithName:@"TUKkeyboardDatePickerViewDidSelected"
                                                     body:@{@"currentUid" : [currentUid stringValue], @"selectedDate": @(sender.date.timeIntervalSince1970 * 1000.0)}];
 }
 
@@ -181,21 +181,21 @@ RCT_EXPORT_METHOD(setSelectedTextRange:(nonnull NSNumber *)reactNode
     NSNumber *selectedIndex = [NSNumber numberWithLong:[sender selectedRowInComponent:0]];
     NSLog(@"Selected %d", [selectedIndex intValue]);
     NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"keyboardPickerViewDidSelected"
+    [self.bridge.eventDispatcher sendAppEventWithName:@"TUKeyboardPickerViewDidSelected"
                                                     body:@{@"currentUid" : [currentUid stringValue], @"selectedIndex": [selectedIndex stringValue]}];
 }
 
 - (void)keyboardCancel:(UIBarButtonItem*)sender
 {
     NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"keyboardToolbarDidTouchOnCancel"
+    [self.bridge.eventDispatcher sendAppEventWithName:@"TUKeyboardToolbarDidTouchOnCancel"
                                                     body:@([currentUid intValue])];
 }
 
 - (void)keyboardDone:(UIBarButtonItem*)sender
 {
     NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"keyboardToolbarDidTouchOnDone"
+    [self.bridge.eventDispatcher sendAppEventWithName:@"TUKeyboardToolbarDidTouchOnDone"
                                                     body:@([currentUid intValue])];
 }
 
