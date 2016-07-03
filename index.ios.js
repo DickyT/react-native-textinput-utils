@@ -41,7 +41,7 @@ NativeAppEventEmitter.addListener('TUKeyboardToolbarDidTouchOnDone', (currentUid
 });
 
 NativeAppEventEmitter.addListener('TUKeyboardPickerViewDidSelected', (data) => {
-    console.log(`keyboardPickerViewDidSelected => data => ${data['selectedIndex']}`);
+    console.log(`TUKeyboardPickerViewDidSelected => data => ${data['selectedIndex']}`);
     var currentUid = data['currentUid'];
     var selectedIndex = data['selectedIndex'];
     let eventHandler = RCTKeyboardToolbarHelper.getCallback(currentUid).onPickerSelect;
@@ -51,7 +51,7 @@ NativeAppEventEmitter.addListener('TUKeyboardPickerViewDidSelected', (data) => {
 });
 
 NativeAppEventEmitter.addListener('TUKeyboardDatePickerViewDidSelected', (data) => {
-    console.log(`keyboardDatePickerViewDidSelected => data => ${data['selectedDate']}`);
+    console.log(`TUKeyboardDatePickerViewDidSelected => data => ${data['selectedDate']}`);
     var currentUid = data['currentUid'];
     var selectedDate = data['selectedDate'];
     let eventHandler = RCTKeyboardToolbarHelper.getCallback(currentUid).onDateSelect;
