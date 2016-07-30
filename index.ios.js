@@ -24,14 +24,6 @@ class RCTKeyboardToolbarHelper {
     static clearCallback(key) {
         delete RCTKeyboardToolbarHelper.sharedInstance.callbackList[key];
     }
-    static setPickerRowByIndex(node, NSInteger) {
-        var nodeHandle = React.findNodeHandle(node);
-        KeyboardToolbar.setPickerRowByIndex(nodeHandle, NSInteger);
-    }
-    static reloadPickerData(node, NSArray) {
-        var nodeHandle = React.findNodeHandle(node);
-        KeyboardToolbar.reloadPickerData(nodeHandle, NSArray);
-    }
 }
 
 DeviceEventEmitter.addListener('keyboardToolbarDidTouchOnCancel', (currentUid) => {
@@ -95,6 +87,14 @@ class RCTKeyboardToolbarManager {
     static setSelectedTextRange(node, NSRange) {
         var nodeHandle = findNodeHandle(node);
         KeyboardToolbar.setSelectedTextRange(nodeHandle, NSRange);
+    }
+    static setPickerRowByIndex(node, NSInteger) {
+        var nodeHandle = findNodeHandle(node);
+        KeyboardToolbar.setPickerRowByIndex(nodeHandle, NSInteger);
+    }
+    static reloadPickerData(node, NSArray) {
+        var nodeHandle = findNodeHandle(node);
+        KeyboardToolbar.reloadPickerData(nodeHandle, NSArray);
     }
 }
 
