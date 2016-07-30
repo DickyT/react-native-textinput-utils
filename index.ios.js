@@ -88,6 +88,14 @@ class RCTKeyboardToolbarManager {
         var nodeHandle = findNodeHandle(node);
         KeyboardToolbar.setSelectedTextRange(nodeHandle, NSRange);
     }
+    static setPickerRowByIndex(node, NSInteger) {
+        var nodeHandle = findNodeHandle(node);
+        KeyboardToolbar.setPickerRowByIndex(nodeHandle, NSInteger);
+    }
+    static reloadPickerData(node, NSArray) {
+        var nodeHandle = findNodeHandle(node);
+        KeyboardToolbar.reloadPickerData(nodeHandle, NSArray);
+    }
 }
 
 class RCTKeyboardToolbarTextInput extends React.Component {
@@ -138,6 +146,20 @@ class RCTKeyboardToolbarTextInput extends React.Component {
         RCTKeyboardToolbarManager.setSelectedTextRange(this.refs.input, {
             start: start,
             length: length
+        });
+    }
+    setPickerRowByIndex(index) {
+        RCTKeyboardToolbarManager.setPickerRowByIndex(this.refs.input, {
+            index: index
+        });
+    }
+    reloadPickerData(data) {
+        data = data.map((item) => {
+            return item.label;
+        });
+
+        RCTKeyboardToolbarManager.reloadPickerData(this.refs.input, {
+            data
         });
     }
     focus() {
