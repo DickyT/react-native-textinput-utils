@@ -96,12 +96,12 @@ RCT_EXPORT_METHOD(configure:(nonnull NSNumber *)reactNode
             textView.inputView = pickerView;
         }
         
-        NSDictionary *datePicerkViewData = [RCTConvert NSDictionary:options[@"datePickerOptions"]];
-        if(datePicerkViewData != nil){
+        NSDictionary *datePickerViewData = [RCTConvert NSDictionary:options[@"datePickerOptions"]];
+        if(datePickerViewData != nil){
             RCTKeyboardDatePicker *datePickerView = [[RCTKeyboardDatePicker alloc] init];
             datePickerView.tag = [currentUid intValue];
             [datePickerView setCallbackObject:self withSelector:@selector(dateSelected:)];
-            [datePickerView setOptions:datePicerkViewData];
+            [datePickerView setOptions:datePickerViewData];
             textView.inputView = datePickerView;
         }
         
@@ -166,6 +166,24 @@ RCT_EXPORT_METHOD(setSelectedTextRange:(nonnull NSNumber *)reactNode
             UITextPosition *to = [textView positionFromPosition:from offset:range.length];
             [textView setSelectedTextRange:[textView textRangeFromPosition:from toPosition:to]];
         });
+    }];
+}
+
+RCT_EXPORT_METHOD(setDate:(nonnull NSNumber *)reactNode
+                  options:(NSDictionary *)options) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary *viewRegistry) {
+        
+        UIView *view = viewRegistry[reactNode];
+        if (!view) {
+            RCTLogError(@"RCTKeyboardToolbar: TAG #%@ NOT FOUND", reactNode);
+            return;
+        }
+        
+        UIDatePicker *datePicker = ((UIDatePicker *)view.inputView);
+        
+        NSDate *date = [RCTConvert NSDate:options[@"date"]];
+        
+        [datePicker setDate: date];
     }];
 }
 
