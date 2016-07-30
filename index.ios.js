@@ -89,7 +89,7 @@ class RCTKeyboardToolbarManager {
         KeyboardToolbar.setSelectedTextRange(nodeHandle, NSRange);
     }
     static setDate(node, NSDate) {
-        var nodeHandle = React.findNodeHandle(node);
+        var nodeHandle = findNodeHandle(node);
         KeyboardToolbar.setDate(nodeHandle, NSDate);
     }
 }
