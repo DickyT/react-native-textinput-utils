@@ -172,7 +172,7 @@ RCT_EXPORT_METHOD(setSelectedTextRange:(nonnull NSNumber *)reactNode
 -(void)dateSelected:(RCTKeyboardDatePicker*)sender
 {
     NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
-    [self.bridge.eventDispatcher sendAppEventWithName:@"TUKkeyboardDatePickerViewDidSelected"
+    [self.bridge.eventDispatcher sendAppEventWithName:@"TUKeyboardDatePickerViewDidSelected"
                                                     body:@{@"currentUid" : [currentUid stringValue], @"selectedDate": @(sender.date.timeIntervalSince1970 * 1000.0)}];
 }
 
