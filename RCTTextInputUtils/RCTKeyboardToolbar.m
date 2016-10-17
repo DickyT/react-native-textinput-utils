@@ -169,10 +169,75 @@ RCT_EXPORT_METHOD(setSelectedTextRange:(nonnull NSNumber *)reactNode
     }];
 }
 
+RCT_EXPORT_METHOD(setPickerRowByIndex:(nonnull NSNumber *)reactNode
+                  options:(NSDictionary *)options) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary *viewRegistry) {
+        
+        UIView *view = viewRegistry[reactNode];
+        if (!view) {
+            RCTLogError(@"RCTKeyboardToolbar: TAG #%@ NOT FOUND", reactNode);
+            return;
+        }
+        
+        UIPickerView *textView = ((UIPickerView *)view.inputView);
+        
+        NSInteger *index = [RCTConvert NSInteger:options[@"index"]];
+        
+        [textView selectRow: index inComponent:0 animated:YES];
+        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//        });
+    }];
+}
+
+RCT_EXPORT_METHOD(reloadPickerData:(nonnull NSNumber *)reactNode
+                  options:(NSDictionary *)options) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary *viewRegistry) {
+        
+        UIView *view = viewRegistry[reactNode];
+        if (!view) {
+            RCTLogError(@"RCTKeyboardToolbar: TAG #%@ NOT FOUND", reactNode);
+            return;
+        }
+        
+        RCTKeyboardPicker *textView = ((RCTKeyboardPicker *)view.inputView);
+        
+        NSArray *data = [RCTConvert NSArray:options[@"data"]];
+        
+        NSLog(@"%@", data);
+        [textView setData: data];
+        [textView reloadAllComponents];
+        
+        //        dispatch_async(dispatch_get_main_queue(), ^{
+        //        });
+    }];
+}
+
+RCT_EXPORT_METHOD(setDate:(nonnull NSNumber *)reactNode
+                  options:(NSDictionary *)options) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary *viewRegistry) {
+        
+        UIView *view = viewRegistry[reactNode];
+        if (!view) {
+            RCTLogError(@"RCTKeyboardToolbar: TAG #%@ NOT FOUND", reactNode);
+            return;
+        }
+        
+        UIDatePicker *textView = ((UIDatePicker *)view.inputView);
+        
+        NSDate *date = [RCTConvert NSDate:options[@"date"]];
+        NSLog(@"setting Date to %@", date);
+        [textView setDate: date];
+        
+        //        dispatch_async(dispatch_get_main_queue(), ^{
+        //        });
+    }];
+}
+
 -(void)dateSelected:(RCTKeyboardDatePicker*)sender
 {
     NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"keyboardDatePickerViewDidSelected"
+    [self.bridge.eventDispatcher sendAppEventWithName:@"TUKkeyboardDatePickerViewDidSelected"
                                                     body:@{@"currentUid" : [currentUid stringValue], @"selectedDate": @(sender.date.timeIntervalSince1970 * 1000.0)}];
 }
 
@@ -181,21 +246,21 @@ RCT_EXPORT_METHOD(setSelectedTextRange:(nonnull NSNumber *)reactNode
     NSNumber *selectedIndex = [NSNumber numberWithLong:[sender selectedRowInComponent:0]];
     NSLog(@"Selected %d", [selectedIndex intValue]);
     NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"keyboardPickerViewDidSelected"
+    [self.bridge.eventDispatcher sendAppEventWithName:@"TUKeyboardPickerViewDidSelected"
                                                     body:@{@"currentUid" : [currentUid stringValue], @"selectedIndex": [selectedIndex stringValue]}];
 }
 
 - (void)keyboardCancel:(UIBarButtonItem*)sender
 {
     NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"keyboardToolbarDidTouchOnCancel"
+    [self.bridge.eventDispatcher sendAppEventWithName:@"TUKeyboardToolbarDidTouchOnCancel"
                                                     body:@([currentUid intValue])];
 }
 
 - (void)keyboardDone:(UIBarButtonItem*)sender
 {
     NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
-    [self.bridge.eventDispatcher sendDeviceEventWithName:@"keyboardToolbarDidTouchOnDone"
+    [self.bridge.eventDispatcher sendAppEventWithName:@"TUKeyboardToolbarDidTouchOnDone"
                                                     body:@([currentUid intValue])];
 }
 

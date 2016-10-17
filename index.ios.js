@@ -2,7 +2,7 @@
 
 const React = require('react');
 
-const {findNodeHandle, TextInput, DeviceEventEmitter, NativeModules: {
+const {findNodeHandle, TextInput, NativeAppEventEmitter, NativeModules: {
         KeyboardToolbar
     }, processColor} = require('react-native');
 
@@ -26,22 +26,22 @@ class RCTKeyboardToolbarHelper {
     }
 }
 
-DeviceEventEmitter.addListener('keyboardToolbarDidTouchOnCancel', (currentUid) => {
+NativeAppEventEmitter.addListener('TUKeyboardToolbarDidTouchOnCancel', (currentUid) => {
     let eventHandler = RCTKeyboardToolbarHelper.getCallback(currentUid).onCancel;
     if (eventHandler) {
         eventHandler();
     }
 });
 
-DeviceEventEmitter.addListener('keyboardToolbarDidTouchOnDone', (currentUid) => {
+NativeAppEventEmitter.addListener('TUKeyboardToolbarDidTouchOnDone', (currentUid) => {
     let eventHandler = RCTKeyboardToolbarHelper.getCallback(currentUid).onDone;
     if (eventHandler) {
         eventHandler();
     }
 });
 
-DeviceEventEmitter.addListener('keyboardPickerViewDidSelected', (data) => {
-    console.log(`keyboardPickerViewDidSelected => data => ${data['selectedIndex']}`);
+NativeAppEventEmitter.addListener('TUKeyboardPickerViewDidSelected', (data) => {
+    console.log(`TUKeyboardPickerViewDidSelected => data => ${data['selectedIndex']}`);
     var currentUid = data['currentUid'];
     var selectedIndex = data['selectedIndex'];
     let eventHandler = RCTKeyboardToolbarHelper.getCallback(currentUid).onPickerSelect;
@@ -50,8 +50,8 @@ DeviceEventEmitter.addListener('keyboardPickerViewDidSelected', (data) => {
     }
 });
 
-DeviceEventEmitter.addListener('keyboardDatePickerViewDidSelected', (data) => {
-    console.log(`keyboardDatePickerViewDidSelected => data => ${data['selectedDate']}`);
+NativeAppEventEmitter.addListener('TUKeyboardDatePickerViewDidSelected', (data) => {
+    console.log(`TUKeyboardDatePickerViewDidSelected => data => ${data['selectedDate']}`);
     var currentUid = data['currentUid'];
     var selectedDate = data['selectedDate'];
     let eventHandler = RCTKeyboardToolbarHelper.getCallback(currentUid).onDateSelect;
@@ -75,19 +75,33 @@ class RCTKeyboardToolbarManager {
                 });
             }
         });
-    }
-    static dismissKeyboard(node) {
-        var nodeHandle = findNodeHandle(node);
-        KeyboardToolbar.dismissKeyboard(nodeHandle);
-    }
-    static moveCursorToLast(node) {
-        var nodeHandle = findNodeHandle(node);
-        KeyboardToolbar.moveCursorToLast(nodeHandle);
-    }
-    static setSelectedTextRange(node, NSRange) {
-        var nodeHandle = findNodeHandle(node);
-        KeyboardToolbar.setSelectedTextRange(nodeHandle, NSRange);
-    }
+      }
+      
+  static dismissKeyboard(node) {
+    var nodeHandle = findNodeHandle(node);
+    KeyboardToolbar.dismissKeyboard(nodeHandle);
+  }
+  static moveCursorToLast(node) {
+    var nodeHandle = findNodeHandle(node);
+    KeyboardToolbar.moveCursorToLast(nodeHandle);
+  }
+  static setSelectedTextRange(node, NSRange) {
+    var nodeHandle = findNodeHandle(node);
+    KeyboardToolbar.setSelectedTextRange(nodeHandle, NSRange);
+  }
+   static setDate(node, NSDate) {
+    var nodeHandle = findNodeHandle(node);
+    KeyboardToolbar.setDate(nodeHandle, NSDate);
+  }
+  static setPickerRowByIndex(node, NSInteger) {
+    var nodeHandle = findNodeHandle(node);
+    KeyboardToolbar.setPickerRowByIndex(nodeHandle, NSInteger);
+  }
+    static reloadPickerData(node, NSArray) {
+    var nodeHandle = findNodeHandle(node);
+    KeyboardToolbar.reloadPickerData(nodeHandle, NSArray);
+  }
+
 }
 
 class RCTKeyboardToolbarTextInput extends React.Component {
@@ -140,6 +154,24 @@ class RCTKeyboardToolbarTextInput extends React.Component {
             length: length
         });
     }
+    setDate(date) {
+      RCTKeyboardToolbarManager.setDate(this.refs.input, {
+        date: date
+      });
+    }
+    setPickerRowByIndex(index) {
+      RCTKeyboardToolbarManager.setPickerRowByIndex(this.refs.input, {
+        index: index
+      });
+    } 
+    reloadPickerData(data) {
+      data = data.map((eachData) => {
+        return eachData.label;
+      });
+      RCTKeyboardToolbarManager.reloadPickerData(this.refs.input, {
+        data
+      });
+    } 
     focus() {
         this.refs.MygKD.focus();
     }
