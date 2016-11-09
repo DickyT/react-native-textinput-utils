@@ -187,6 +187,45 @@ RCT_EXPORT_METHOD(setDate:(nonnull NSNumber *)reactNode
     }];
 }
 
+RCT_EXPORT_METHOD(setPickerRowByIndex:(nonnull NSNumber *)reactNode
+                  options:(NSDictionary *)options) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary *viewRegistry) {
+        
+        UIView *view = viewRegistry[reactNode];
+        if (!view) {
+            RCTLogError(@"RCTKeyboardToolbar: TAG #%@ NOT FOUND", reactNode);
+            return;
+        }
+        
+        UIPickerView *pickerView = ((UIPickerView *)view.inputView);
+        
+        NSInteger *index = [RCTConvert NSInteger:options[@"index"]];
+        
+        [pickerView selectRow: index inComponent:0 animated:YES];
+        
+    }];
+}
+
+RCT_EXPORT_METHOD(reloadPickerData:(nonnull NSNumber *)reactNode
+                  options:(NSDictionary *)options) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary *viewRegistry) {
+        
+        UIView *view = viewRegistry[reactNode];
+        if (!view) {
+            RCTLogError(@"RCTKeyboardToolbar: TAG #%@ NOT FOUND", reactNode);
+            return;
+        }
+        
+        RCTKeyboardPicker *pickerView = ((RCTKeyboardPicker *)view.inputView);
+        
+        NSArray *data = [RCTConvert NSArray:options[@"data"]];
+        
+        [pickerView setData: data];
+        [pickerView reloadAllComponents];
+        
+    }];
+}
+
 -(void)dateSelected:(RCTKeyboardDatePicker*)sender
 {
     NSNumber *currentUid = [NSNumber numberWithLong:sender.tag];
