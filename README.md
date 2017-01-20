@@ -9,9 +9,9 @@ The original name is [react-native-keyboard-toolbar](http://github.com/DickyT/re
 ![react-native-textinput-utils](https://cloud.githubusercontent.com/assets/4535844/11055687/f2652524-874f-11e5-96f0-333c6bc4ba1c.gif)
 
 ## Timeline
-0.2.7 - Now support RN 0.40
+0.3.7 - Now support RN 0.40
 
-0.2.6 - New feature of `setPickerRowByIndex` and `reloadPickerData` by @DaveAdams88
+0.3.6 - New feature of `setPickerRowByIndex` and `reloadPickerData` by @DaveAdams88
 
 0.2.5 - Added the fully support of `multiline` `<TextInput/>`
 
