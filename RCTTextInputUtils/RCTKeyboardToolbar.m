@@ -8,12 +8,12 @@
 
 #import "RCTKeyboardToolbar.h"
 
-#import "RCTBridge.h"
-#import "RCTConvert.h"
+#import <React/RCTBridge.h>
+#import <React/RCTConvert.h>
 #import "RCTTextField.h"
 #import "RCTTextView.h"
-#import "RCTUIManager.h"
-#import "RCTEventDispatcher.h"
+#import <React/RCTUIManager.h>
+#import <React/RCTEventDispatcher.h>
 #import "RCTKeyboardPicker.h"
 #import "RCTTextViewExtension.h"
 #import "RCTDatePicker.h"
