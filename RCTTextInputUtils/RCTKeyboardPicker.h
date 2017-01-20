@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RCTBridgeModule.h"
+#import <React/RCTBridgeModule.h>
 
 @interface RCTKeyboardPicker : UIPickerView<UIPickerViewDataSource, UIPickerViewDelegate>
 
