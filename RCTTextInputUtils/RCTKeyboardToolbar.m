@@ -80,7 +80,9 @@ RCT_EXPORT_METHOD(configure:(nonnull NSNumber *)reactNode
             [toolbarItems addObject:[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil]];
         }
         if (![rightButtonText isEqualToString:@""]) {
-            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithTitle:rightButtonText style:UIBarButtonItemStyleDone target:self action:@selector(keyboardDone:)];
+            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithTitle:rightButtonText style:UIBarButtonItemStylePlain target:self action:@selector(keyboardDone:)];
+            rightItem.tintColor = [UIColor colorWithRed:0x29/255.0 green:0x30/255.0 blue:0x33/255.0 alpha:1.0];
+
             rightItem.tag = [currentUid intValue];
             [toolbarItems addObject:rightItem];
         }
