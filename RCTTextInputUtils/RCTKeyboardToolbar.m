@@ -197,12 +197,21 @@ RCT_EXPORT_METHOD(setPickerRowByIndex:(nonnull NSNumber *)reactNode
             return;
         }
         
-        UIPickerView *pickerView = ((UIPickerView *)view.inputView);
+        UITextField *textView;
+        if ([view class] == [RCTTextView class]) {
+            RCTTextView *reactNativeTextView = ((RCTTextView *)view);
+            textView = [reactNativeTextView getTextView];
+        }
+        else {
+            RCTTextField *reactNativeTextView = ((RCTTextField *)view);
+            textView = [reactNativeTextView textField];
+        }
         
-        NSInteger *index = [RCTConvert NSInteger:options[@"index"]];
+        UIPickerView *pickerView = ((UIPickerView *)textView.inputView);
+        
+        NSInteger index = [RCTConvert NSInteger:options[@"index"]];
         
         [pickerView selectRow: index inComponent:0 animated:YES];
-        
     }];
 }
 
