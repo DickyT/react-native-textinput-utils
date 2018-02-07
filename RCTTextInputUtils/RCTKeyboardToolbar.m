@@ -52,7 +52,7 @@ RCT_EXPORT_METHOD(configure:(nonnull NSNumber *)reactNode
         }
         else {
             RCTTextField *reactNativeTextView = ((RCTTextField *)view);
-            textView = reactNativeTextView;
+            textView = [reactNativeTextView textField];
         }
         
         if (options[@"tintColor"]) {
@@ -139,8 +139,8 @@ RCT_EXPORT_METHOD(moveCursorToLast:(nonnull NSNumber *)reactNode) {
         RCTTextField *textView = ((RCTTextField *)view);
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            UITextPosition *position = [textView endOfDocument];
-            textView.selectedTextRange = [textView textRangeFromPosition:position toPosition:position];
+            UITextPosition *position = [textView.backedTextInputView endOfDocument];
+            textView.backedTextInputView.selectedTextRange = [textView.backedTextInputView textRangeFromPosition:position toPosition:position];
         });
     }];
 }
@@ -162,9 +162,9 @@ RCT_EXPORT_METHOD(setSelectedTextRange:(nonnull NSNumber *)reactNode
         NSRange range  = NSMakeRange([startPosition integerValue], [endPosition integerValue]);
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            UITextPosition *from = [textView positionFromPosition:[textView beginningOfDocument] offset:range.location];
-            UITextPosition *to = [textView positionFromPosition:from offset:range.length];
-            [textView setSelectedTextRange:[textView textRangeFromPosition:from toPosition:to]];
+            UITextPosition *from = [textView.backedTextInputView positionFromPosition:[textView.backedTextInputView beginningOfDocument] offset:range.location];
+            UITextPosition *to = [textView.backedTextInputView positionFromPosition:from offset:range.length];
+            [textView.backedTextInputView setSelectedTextRange:[textView.backedTextInputView textRangeFromPosition:from toPosition:to]];
         });
     }];
 }
@@ -197,12 +197,21 @@ RCT_EXPORT_METHOD(setPickerRowByIndex:(nonnull NSNumber *)reactNode
             return;
         }
         
-        UIPickerView *pickerView = ((UIPickerView *)view.inputView);
+        UITextField *textView;
+        if ([view class] == [RCTTextView class]) {
+            RCTTextView *reactNativeTextView = ((RCTTextView *)view);
+            textView = [reactNativeTextView getTextView];
+        }
+        else {
+            RCTTextField *reactNativeTextView = ((RCTTextField *)view);
+            textView = [reactNativeTextView textField];
+        }
         
-        NSInteger *index = [RCTConvert NSInteger:options[@"index"]];
+        UIPickerView *pickerView = ((UIPickerView *)textView.inputView);
+        
+        NSInteger index = [RCTConvert NSInteger:options[@"index"]];
         
         [pickerView selectRow: index inComponent:0 animated:YES];
-        
     }];
 }
 
