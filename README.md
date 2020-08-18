@@ -2,6 +2,8 @@
 [![npm version](https://badge.fury.io/js/react-native-textinput-utils.svg)](https://badge.fury.io/js/react-native-textinput-utils)
 [![MIT](https://img.shields.io/dub/l/vibe-d.svg)]()
 
+**THIS PACKAGE IS NO LONGER MAINTAINED SINCE 2018 AND DOES NOT WORK WITH LATEST REACT NATIVE**
+
 A react native extendsion which allows you to control TextInput better.
 
 The original name is [react-native-keyboard-toolbar](http://github.com/DickyT/react-native-keyboard-toolbar), because the latest add some features, I think the old name is not suitable for this package.
